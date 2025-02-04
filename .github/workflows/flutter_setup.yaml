@@ -1,0 +1,30 @@
+name: Setup Flutter Project
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.5'
+
+      - name: Create Flutter Project
+        run: flutter create .
+
+      - name: Commit and Push Project Files
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Initial Flutter project setup"
+          git push
